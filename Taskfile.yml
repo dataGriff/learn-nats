@@ -61,24 +61,24 @@ tasks:
       - nats pub hello.griff "Hello, Griff!" --count=1000
 
   nats:reply:wildcard:a:
-    desc: Run a NATS reply with a wildcard
+    desc: Run a NATS reply with a wildcard - you cannot run this from task.
     cmds:
-      - nats reply "hello.*" --command "echo 'Hello, {{1}} from A'" --sleep 1s
+      - nats reply "hello.*" --command "echo 'Hello, {{1}} this is a reply from A'" --sleep 1s
 
   nats:reply:wildcard:b:
-    desc: Run a NATS reply with a wildcard
+    desc: Run a NATS reply with a wildcard.
     cmds:
-      - nats reply "hello.*" --command "echo 'Hello, {{1}} from B'" --sleep 1s
+      - nats reply "hello.*" --command 'echo Hello, {{"{{"}}1{{"}}"}} this is a reply from B' --sleep 1s
 
   nats:request:wildcard:
-    desc: Run a NATS request with a wildcard
+    desc: Run a NATS request for the wildcard reply
     cmds:
       - nats req hello.griff ""
 
   nats:request:wildcard:loop:
-    desc: Run a NATS request with a wildcard loop
+    desc: Run a NATS request in loop for the wildcard reply
     cmds:
-      - nats req hello.griff "Hello?" --count=-1
+      - nats req hello.griff "Hello, I'd like to make a request" --count=-1
 
   nats:cheat:
     desc: Get list of cheats for nats
@@ -86,6 +86,6 @@ tasks:
       - nats cheat
 
   nats:observe:
-    desc: Observe all reply and requests
+    desc: Observe all reply and requests running
     cmds:
       - nats sub ">"
