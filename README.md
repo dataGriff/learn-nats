@@ -1,6 +1,6 @@
 # learn-nats
 
-## pre-reqs
+## pre-requisites
 
 ### install homebrew
 
@@ -21,5 +21,11 @@ brew install go-task/tap/go-task
 
 ```bash
 # install nats cli
+brew install nats-server
+brew tap nats-io/nats-tools
 brew install nats-io/nats-tools/nats
+```
+
+```bash
+docker pull nats
 ```
