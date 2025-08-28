@@ -1,0 +1,76 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  nats:server:
+    desc: Run a NATS server
+    cmds:
+      - nats server run
+
+  nats:context:development:
+    desc: Sets nats context
+    cmds:
+      - nats context select nats_development
+
+  nats:reply:
+    desc: Run a NATS reply
+    cmds:
+      - nats reply hello.griff "Hi there!"
+
+  nats:request:
+    desc: Run a NATS request
+    cmds:
+      - nats req hello.griff ""
+
+  nats:publish:
+    desc: Run a NATS publish
+    cmds:
+      - nats pub hello.griff "Hello, World!"
+
+## You can have multiple consumers on same subject
+  nats:subscribe:
+    desc: Run a NATS subscribe
+    cmds:
+      - nats sub hello.griff
+
+## You can have multiple publishers on same subject
+  nats:publish:repeat:
+    desc: Run a NATS publish repeatedly
+    cmds:
+      - nats pub hello.griff "Hello, Griff!" --count=-1 --sleep=1s
+
+# scale out subscribers on a single queue group
+# message delivered once across queue group allowing scale
+  nats:sub:queuegroup:
+    desc: Run a NATS subscribe in a queue group
+    cmds:
+      - nats sub hello.griff --queue greeter
+
+  nats:publish:repeat:1000:
+    desc: Run a NATS publish repeat 1000
+    cmds:
+      - nats pub hello.griff "Hello, Griff!" --count=1000
+
+  nats:reply:wildcard:
+    desc: Run a NATS reply with a wildcard
+    cmds:
+      - nats reply "hello.*" --command "echo 'Hello, {{1}}'" --sleep 1s
+
+  nats:request:wildcard:
+    desc: Run a NATS request with a wildcard
+    cmds:
+      - nats req hello.griff ""
+
+  nats:cheat:
+    desc: Get list of cheats for nats
+    cmds:
+      - nats cheat
